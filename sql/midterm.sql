@@ -35,29 +35,8 @@ WHERE country = 'North Korea';
  * Order the results so that actors generating the most revenue are at the top.
  */
 
-SELECT a1.first_name, a1.last_name, SUM(p.amount) AS total_revenue
-FROM actor a1
-JOIN film_actor fa ON a1.actor_id = fa.actor_id
-JOIN film f ON fa.film_id = f.film_id
-JOIN film_category fc ON f.film_id = fc.film_id
-JOIN category c ON fc.category_id = c.category_id
-JOIN inventory i ON f.film_id = i.film_id
-JOIN rental r ON i.inventory_id = r.inventory_id
-JOIN payment p ON r.rental_id = p.rental_id
-WHERE c.name = 'Family'
-AND a1.actor_id NOT IN (
-    SELECT fa1.actor_id
-    FROM film_actor fa1
-    JOIN film f1 ON fa1.film_id = f1.film_id
-    JOIN film_category fc1 ON f1.film_id = fc1.film_id
-    JOIN category c1 ON fc1.category_id = c1.category_id
-    WHERE c1.name = 'Horror'
-)
-GROUP BY a1.actor_id
-ORDER BY total_revenue DESC;
 
-/*
- * SELECT
+SELECT
     a1.first_name,
     a1.last_name,
     COALESCE(SUM(p.amount), 0) AS total_amount
@@ -86,7 +65,7 @@ LEFT JOIN rental r ON i.inventory_id = r.inventory_id
 LEFT JOIN payment p ON r.rental_id = p.rental_id
 GROUP BY a1.first_name, a1.last_name
 ORDER BY total_amount DESC;
-*/
+
 
 /* PROBLEM 3:
  *
